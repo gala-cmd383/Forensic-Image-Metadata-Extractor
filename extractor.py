@@ -1,26 +1,18 @@
 import hashlib
 from pathlib import Path
 import exifread
+from PIL import Image
 import pillow_heif
 
-# Register Apple HEIC support
 pillow_heif.register_heif_opener()
 
 
 class ForensicImageExtractor:
-    """
-    A digital forensics class to extract EXIF metadata, device info,
-    GPS coordinates, and calculate evidence integrity hashes.
-    """
 
     def __init__(self, image_path: str):
         self.image_path = Path(image_path.strip("\"'"))
 
     def calculate_sha256(self) -> str:
-        """
-        Calculates the SHA-256 cryptographic hash of the image file to ensure
-        forensic chain of custody and file integrity.
-        """
         sha256 = hashlib.sha256()
         with open(self.image_path, "rb") as f:
             while chunk := f.read(8192):
@@ -28,7 +20,6 @@ class ForensicImageExtractor:
         return sha256.hexdigest()
 
     def _convert_to_degrees(self, ratio_list) -> float:
-        """Converts raw GPS EXIF coordinates (degrees, minutes, seconds) to decimal degrees."""
         try:
             d = float(ratio_list[0].num) / float(ratio_list[0].den)
             m = float(ratio_list[1].num) / float(ratio_list[1].den)
@@ -38,7 +29,6 @@ class ForensicImageExtractor:
             return 0.0
 
     def extract_metadata(self) -> dict:
-        """Extracts and parses all available EXIF tags and GPS details."""
         report = {
             "Filename": self.image_path.name,
             "SHA-256": self.calculate_sha256(),
@@ -48,13 +38,16 @@ class ForensicImageExtractor:
             "Google Maps Link": None,
         }
 
-        with open(self.image_path, "rb") as f:
-            tags = exifread.process_file(f, details=True)
+        tags = {}
+        try:
+            with open(self.image_path, "rb") as f:
+                tags = exifread.process_file(f, details=True)
+        except Exception:
+            pass
 
         if not tags:
             return report
 
-        # Camera & Device Info
         for key, tag_name in [
             ("Image Make", "Manufacturer"),
             ("Image Model", "Model"),
@@ -63,14 +56,12 @@ class ForensicImageExtractor:
             if key in tags:
                 report["Camera Info"][tag_name] = str(tags[key])
 
-        # Timestamps
         timestamp = tags.get(
             "EXIF DateTimeOriginal", tags.get("Image DateTime", None)
         )
         if timestamp:
             report["Timestamps"]["Date/Time Captured"] = str(timestamp)
 
-        # GPS Extraction
         gps_lat = tags.get("GPS GPSLatitude")
         gps_lat_ref = tags.get("GPS GPSLatitudeRef")
         gps_lon = tags.get("GPS GPSLongitude")
@@ -79,11 +70,11 @@ class ForensicImageExtractor:
         if gps_lat and gps_lon and gps_lat_ref and gps_lon_ref:
             try:
                 lat = self._convert_to_degrees(gps_lat.values)
-                if str(gps_lat_ref) != "N":
+                if str(gps_lat_ref).strip() != "N":
                     lat = -lat
 
                 lon = self._convert_to_degrees(gps_lon.values)
-                if str(gps_lon_ref) != "E":
+                if str(gps_lon_ref).strip() != "E":
                     lon = -lon
 
                 report["GPS Info"]["Latitude"] = round(lat, 6)
