@@ -1,3 +1,4 @@
+Markdown
 # Forensic Image Metadata Extractor 🔍📸
 
 A modular Python tool designed for **Digital Forensics Investigators**, **Incident Responders**, and **OSINT Analysts** to extract hidden EXIF metadata, verify digital evidence integrity, and parse geolocation coordinates from digital media.
@@ -25,24 +26,17 @@ A modular Python tool designed for **Digital Forensics Investigators**, **Incide
                     ├──► Device Hardware & OS Metadata
                     ├──► Timestamps & Creation Dates
                     └──► GPS Coordinates ──► Decimal Conversion ──► Google Maps
-
-```
-Installation & Usage
+🚀 Installation & Usage
 1. Clone the Repository
 Bash
-git clone [https://github.com/gala-cmd383/Forensic-Image-Metadata-Extractor.git](https://github.com/gala-cmd383/Forensic-Image-Metadata-Extractor.git)
+git clone https://github.com/gala-cmd383/Forensic-Image-Metadata-Extractor.git
 cd Forensic-Image-Metadata-Extractor
-
----
-
-3. Install Dependencies
+2. Install Dependencies
 Bash
 pip install -r requirements.txt
-4. Run the Analyzer
+3. Run the Analyzer
 Bash
 python extractor.py
-
-
 📊 Sample Output
 Plaintext
 ==================================================
@@ -66,8 +60,6 @@ Enter target image path: IMG_1915.HEIC
 --- Geolocation Data (OSINT / Forensics) ---
   • Latitude  : 24.713552
   • Longitude : 46.675296
-  • Location  : [https://www.google.com/maps?q=24.713552,46.675296](https://www.google.com/maps?q=24.713552,46.675296)
-  ---
-  
+  • Location  : https://www.google.com/maps?q=24.713552,46.675296
 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.ENSE file for details.
