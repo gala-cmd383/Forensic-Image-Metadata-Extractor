@@ -58,5 +58,5 @@ Enter target image path: IMG_1915.HEIC
   • Longitude : 46.675296
   • Location  : [https://www.google.com/maps?q=24.713552,46.675296](https://www.google.com/maps?q=24.713552,46.675296)
 ```
-##📄 License
+## 📄 License
 * **This project is licensed under the MIT License - see the LICENSE file for details**
