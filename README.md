@@ -1,16 +1,16 @@
 # Forensic Image Metadata Extractor 🔍📸
 
-A modular Python tool designed for **Digital Forensics Investigators**, **Incident Responders**, and **OSINT Analysts** to extract hidden EXIF metadata, verify digital evidence integrity, and parse geolocation coordinates from digital media.
+A modular Python tool designed for Digital Forensics Investigators, Incident Responders, and OSINT Analysts to extract hidden EXIF metadata, verify digital evidence integrity, and parse geolocation coordinates from digital media.
 
 ---
 
 ## 🌟 Key Features
 
-* **Evidence Integrity & Chain of Custody:** Computes **SHA-256 cryptographic hashes** to ensure evidence has not been tampered with or modified.
+* **Cryptographic Integrity Verification:** Computes baseline SHA-256 cryptographic hashes to verify digital media integrity during forensic intake.
 * **Camera & Device Attribution:** Extracts manufacturer, camera/smartphone model, lens configuration, and software/OS versions.
 * **Timestamp Extraction:** Retrieves original creation timestamps (`DateTimeOriginal`) and digitization metadata.
-* **GPS & Geolocation Resolution:** Decodes raw degree/minute/second EXIF tags into decimal coordinates and generates direct **Google Maps** investigation links.
-* **Cross-Format Compatibility:** Fully supports modern Apple **HEIC/HEIF** formats alongside standard **JPEG/JPG/PNG** media.
+* **GPS & Geolocation Resolution:** Decodes raw degree/minute/second EXIF tags into decimal coordinates and generates direct Google Maps investigation links.
+* **Cross-Format Compatibility:** Fully supports modern Apple HEIC/HEIF formats alongside standard JPEG/JPG/PNG media.
 
 ---
 
@@ -26,11 +26,24 @@ A modular Python tool designed for **Digital Forensics Investigators**, **Incide
                     ├──► Timestamps & Creation Dates
                     └──► GPS Coordinates ──► Decimal Conversion ──► Google Maps
 ```
+
 ## Installation & Usage
-* **Clone the Repository** git clone [https://github.com/gala-cmd383/Forensic-Image-Metadata-Extractor.git](https://github.com/gala-cmd383/Forensic-Image-Metadata-Extractor.git)
+
+* **Clone the Repository:**
+```bash
+git clone https://github.com/gala-cmd383/Forensic-Image-Metadata-Extractor.git
 cd Forensic-Image-Metadata-Extractor
-* **Install Dependencies** pip install -r requirements.txt
-* **Run the Analyzer** python extractor.py
+```
+* **Install dependencies:**
+```bash
+pip install -r requirements.txt
+```
+* **Run the analyzer:**
+```bash
+python extractor.py
+```
+---
+
 ## 📊 Sample Output
 
 
@@ -56,7 +69,7 @@ Enter target image path: IMG_1915.HEIC
 --- Geolocation Data (OSINT / Forensics) ---
   • Latitude  : 24.713552
   • Longitude : 46.675296
-  • Location  : [https://www.google.com/maps?q=24.713552,46.675296](https://www.google.com/maps?q=24.713552,46.675296)
+  • Location  : https://www.google.com/maps?q=24.713552,46.675296
 ```
 ## 📄 License
 * **This project is licensed under the MIT License - see the LICENSE file for details**
