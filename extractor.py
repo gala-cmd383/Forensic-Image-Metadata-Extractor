@@ -1,9 +1,10 @@
 import hashlib
 from pathlib import Path
 import exifread
-from PIL import Image
+from PIL import Image, ExifTags
 import pillow_heif
 
+# Register HEIF opener for Pillow support
 pillow_heif.register_heif_opener()
 
 
@@ -45,6 +46,18 @@ class ForensicImageExtractor:
         except Exception:
             pass
 
+        # Fallback to Pillow for HEIC and standard formats if exifread returns empty
+        if not tags:
+            try:
+                with Image.open(self.image_path) as img:
+                    raw_exif = img.getexif()
+                    if raw_exif:
+                        for tag_id, value in raw_exif.items():
+                            tag_name = ExifTags.TAGS.get(tag_id, tag_id)
+                            tags[f"Image {tag_name}"] = value
+            except Exception:
+                pass
+
         if not tags:
             return report
 
@@ -70,11 +83,11 @@ class ForensicImageExtractor:
         if gps_lat and gps_lon and gps_lat_ref and gps_lon_ref:
             try:
                 lat = self._convert_to_degrees(gps_lat.values)
-                if str(gps_lat_ref).strip() != "N":
+                if str(gps_lat_ref).strip().upper() != "N":
                     lat = -lat
 
                 lon = self._convert_to_degrees(gps_lon.values)
-                if str(gps_lon_ref).strip() != "E":
+                if str(gps_lon_ref).strip().upper() != "E":
                     lon = -lon
 
                 report["GPS Info"]["Latitude"] = round(lat, 6)
